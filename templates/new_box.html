@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %} New Customer {% endblock title %}
+
+{% block navbar-content %}
+<div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'boxes_home' %}">View Boxes</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'customers_home' %}"><b style="font-size:25px;">Customers</b></a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'sales_home' %}"><b style="font-size:25px;">Sales</b></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endblock navbar-content %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <br>
+            {% block page-title %}<div>
+
+            </div>{% endblock page-title %}
+            <div class="card card-body mt-3 {% block card-color %} border-dark text-light bg-secondary {% endblock card-color %}">
+                <span class="text-center"><b>{% block card-title %} Enter New Box Data Below {% endblock card-title %}</b></span>
+            </div>
+            <form {% block action %} action="/new_box" {% endblock action %} method="POST" enctype="multipart/form-data" autocomplete="off" class="card p-3 border-dark mt-3">
+               {% csrf_token %}
+
+                {% block value-id %}{% endblock value-id %}
+
+
+                <!--<div class="form-group">
+                    <textarea class="form-control" name="note" rows="7" maxlength="1000" placeholder="Description is Optional">{% block note %}{% endblock note %}</textarea>
+                </div>-->
+
+                <div class="mt-4" style="width: 100%;">
+                    <button type="submit" class="btn btn-outline-secondary mb-3">
+                        {% block btn-action %}<i class="fas fa-plus"></i>&nbsp;&nbsp; Add Box {% endblock btn-action %}
+                    </button>
+                    <a href="{% url 'boxes_home' %}" class="btn btn-outline-dark mb-3 ms-2" style="width:50px;" title="Back">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <button type="reset" class="btn btn-outline-dark mb-3 ms-2" style="width:50px;" title="Reset">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

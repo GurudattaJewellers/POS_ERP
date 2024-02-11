@@ -1,0 +1,214 @@
+{% extends 'new_vendor.html' %}
+
+{% block title %} View Vendor Details {% endblock title %}
+
+{% block navbar-content %}
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'vendors_home' %}">View Vendors</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'new_vendor' %}">New Vendor</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'sales_home' %}"><b style="font-size:25px;">Sales</b></a>
+      </li>
+      </ul>
+    </div>
+  </div>
+{% endblock navbar-content %}
+{% block content %}
+<br>
+<div class="container">
+ <div class="card">
+  <div class="card-body">
+      <h4 class="card-title"><i class="fas fa-user"></i> <b> Vendor's Purchase Details</b></h4>
+
+      <div class="border rounded border-warning  p-2 mb-3">
+      <h4><strong>Vendor ID :</strong> {{ vendor.vendor_id }}</h4>
+        </div>
+        <div class="row">
+        <div class="card card-body {% block card-color %} border-dark text-light bg-secondary {% endblock card-color %}">
+            <div class="d-flex justify-content-between">
+                <span class="text-center">{% block card-title %} <strong> Added at :</strong> {{ vendor.ven_added_date }}{% endblock card-title %}</span>
+                <div>
+                <a style="display: inline-block;" href="{% url 'new_purchase' vendor_id=vendor.vendor_id %}" class="btn btn-outline-light btn-sn" title="New Purchase">
+                    <i class="fas fa-plus"></i>
+                </a>
+                <a style="display: inline-block;" href="{% url 'edit_vendor' vendor_id=vendor.vendor_id %}" class="btn btn-outline-warning btn-sn" title="Edit Vendor">
+                    <i class="fas fa-pen"></i>
+                </a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <br><br>
+      <div class="row">
+  <div class="col-md-6">
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>Name:</strong></p>
+        <p class="mb-0">{{ vendor.vendor_name }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>Email:</strong></p>
+        <p class="mb-0">{{ vendor.ven_emailid }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>GSTIN:</strong></p>
+        <p class="mb-0">{{ vendor.ven_gstin }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>Mobile No:</strong></p>
+        <p class="mb-0">{{ vendor.ven_mobile_no }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>Mobile No 2:</strong></p>
+        <p class="mb-0">{{ vendor.ven_mobile_no2 }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>Address:</strong></p>
+        <p class="mb-0">{{ vendor.vendor_address }}</p>
+      </div>
+    </div>
+  </div>
+ <div class="col-md-6">
+     <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>City:</strong></p>
+        <p class="mb-0">{{ vendor.vendor_address2 }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>State:</strong></p>
+        <p class="mb-0">{{ vendor.ven_state }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>Bank Name</strong></p>
+        <p class="mb-0">{{ vendor.ven_bank_name }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>Bank Branch</strong></p>
+        <p class="mb-0">{{ vendor.ven_bank_branch }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>Account No</strong></p>
+        <p class="mb-0">{{ vendor.ven_ac_no }}</p>
+      </div>
+    </div>
+    <div class="border border-secondary p-2 mb-3">
+      <div class="d-flex justify-content-between">
+        <p class="mb-0"><strong>IFSC Code</strong></p>
+        <p class="mb-0">{{ vendor.ven_ifsc_code }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    <br><br>
+    <table id="purchasesTable" class="table-wrapper display nowrap table table-striped table-responsive table-hover table-bordered table-dark table-sm mt-4">
+    <caption>List of Purchases</caption>
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" align="center" scope="col" class="text-center" >Purchase ID</th>
+            <th style="text-align: center;" scope="col" >Bill No</th>
+            <th style="text-align: center;" scope="col" >Metal</th>
+            <th style="text-align: center;" scope="col" >HSN/SAC Code</th>
+            <th style="text-align: center;" scope="col" >Purity</th>
+            <th style="text-align: center;" scope="col" >Description</th>
+            <th style="text-align: center;" scope="col" >Purchase Type</th>
+            <th style="text-align: center;" scope="col" >Gross Weight</th>
+            <th style="text-align: center;" scope="col" >Less Weight</th>
+            <th style="text-align: center;" scope="col" >Net Weight</th>
+            <th style="text-align: center;" scope="col" >Rate</th>
+            <th style="text-align: center;" scope="col" >Delivery Mode</th>
+            <th style="text-align: center;" scope="col" >GST</th>
+            <th style="text-align: center;" scope="col" >TCS</th>
+            <th style="text-align: center;" scope="col" >Total Amount</th>
+            <th style="text-align: center;" scope="col" >Rounded Off</th>
+            <th style="text-align: center;" scope="col" >Total</th>
+            <th style="text-align: center;" scope="col" >Purchase Date</th>
+            <th style="text-align: center;" scope="col" >Declaration</th>
+            <th style="text-align: center;" scope="col" >Settled Amount</th>
+            <th style="text-align: center;" scope="col" >Unsettled Amount</th>
+            <th style="text-align: center;" scope="col" >Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for purchase in purchases %}
+        <tr>
+            <td class="table-secondary">{{ purchase.purchase_id }}</td>
+            <td class="table-secondary">{{ purchase.bill_no }}</td>
+            <td class="table-secondary">{{ purchase.metal }}</td>
+            <td class="table-secondary">{{ purchase.HSN_SAC_Code }}</td>
+            <td class="table-secondary">{{ purchase.Purity }}</td>
+            <td class="table-secondary">{{ purchase.description }}</td>
+            <td class="table-secondary">{{ purchase.item_purchase_12}}</td>
+            <td class="table-secondary">{{ purchase.gross_weight }}</td>
+            <td class="table-secondary">{{ purchase.less_weight }}</td>
+            <td class="table-secondary">{{ purchase.net_weight }}</td>
+            <td class="table-secondary">{{ purchase.rate }}</td>
+            <td class="table-secondary">{{ purchase.delivery_mode }}</td>
+            <td class="table-secondary">{{ purchase.gst }}</td>
+            <td class="table-secondary">{{ purchase.tcs }}</td>
+            <td class="table-secondary">{{ purchase.total_amount }}</td>
+            <td class="table-secondary">{{ purchase.rounded_off }}</td>
+            <td class="table-secondary">{{ purchase.total }}</td>
+            <td class="table-secondary">{{ purchase.inv_date }}</td>
+            <td class="table-secondary">{{ purchase.declaration }}</td>
+            <td class="table-secondary">{{ sale.settled_amount }}</td>
+            <td class="table-secondary">{{ sale.unsettled_amount }}</td>
+            <td scope="row" class="table-secondary">
+                <div style="display: flex; justify-content: space-between;">
+
+                    <!--<a style="flex: 1;margin: 0 5px;" href="{% url 'customer' customer_id=sale.customer_id %}" class="btn btn-outline-secondary" title="View Sale">
+                        <i class="fas fa-eye" style="display: inline-block;"></i>
+                    </a>-->
+                     <a style="flex: 1;margin: 0 5px;" href="{% url 'edit_purchase' purchase_id=purchase.purchase_id item_purchase_12=purchase.item_purchase_12 %}" class="btn btn-outline-primary" title="Edit Purchase">
+                        <i class="fas fa-pen" style="display: inline-block;"></i>
+                    </a>&nbsp;
+                    <a style="flex: 1;margin: 0 5px;" href="{% url 'delete_purchase' purchase_id=purchase.purchase_id %}" class="btn btn-outline-danger" title="Delete Purchase">
+                        <i class="fas fa-trash-alt" style="display: inline-block;"></i>
+                    </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    </div>
+  </div>
+    <br><br><br>
+
+</div>
+{% endblock content %}

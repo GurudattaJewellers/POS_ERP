@@ -1,0 +1,9 @@
+#notification {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+.toast-color {
+            color: white;
+            background-color: #33b5e5;
+        }

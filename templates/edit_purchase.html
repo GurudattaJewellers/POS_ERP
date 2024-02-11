@@ -1,0 +1,98 @@
+{% extends 'new_purchase.html' %}
+
+{% block title %} Edit Purchase {% endblock title %}
+
+{% block navbar-content %}
+<div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'sales_home' %}">View Sales</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'customers_home' %}"><b style="font-size:25px;">Customers</b></a>
+      </li>
+      </ul>
+    </div>
+  </div>
+{% endblock navbar-content %}
+
+{% block card-color %} border-dark bg-warning {% endblock card-color %}
+{% block page-title %}<div> <strong><h4>Edit Purchase Details Below</h4></strong></div>{% endblock page-title %}
+{% block card-title %} <strong> Sold at :</strong> <span> {{ purchase.purchase_date }} </span> {% endblock card-title %}
+
+{% block action %} action="/edit_purchase/{{ purchase.purchase_id }}/{{ purchase.item_purchase_12 }}" {% endblock action %}
+{% block btn-action %} <i class="fas fa-server"></i>&nbsp; Save Changes {% endblock btn-action %}
+
+{% block value-id %}
+    <div class="input-group mb-3">
+        <span class="side-label btn border-secondary bg-light" style="text-align: left;width: 120px;">Purchase ID</span>
+        <input type="text" class="form-control" name="purchase_id" value="{{purchase.purchase_id}}" readonly>
+    </div>
+{% endblock value-id %}
+
+{% block vendorid %}{{ vendor.vendor_id }}{% endblock vendorid %}
+{% block vendor_id %}{{ vendor.vendor_id }}{% endblock vendor_id %}
+{% block vendor %}<a href="{% url 'vendor' vendor_id=vendor.vendor_id  %}" class="text-success" title="View Vendor">{{ vendor.vendor_name }}</a>{% endblock vendor %}
+
+{% block metaltypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ purchase.metal }}</option>
+{% endblock metaltypes%}
+
+{% block hsntypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ purchase.HSN_SAC_Code }}</option>
+{% endblock hsntypes %}
+
+{% block purity_gold_types %}
+<option style="background-color:#d3d3d3; color:#111">{{ purchase.Purity }}</option>
+{% endblock purity_gold_types %}
+
+{% block purity_silver_types %}
+<option style="background-color:#d3d3d3; color:#111">{{ purchase.Purity }}</option>
+{% endblock purity_silver_types %}
+
+{% block boxestypes %}
+<option style="background-color:#d3d3d3; color:#111">{{box.box_id}} - {{box.box_name}} - {{box.box_metal}} - {{ box.box_total_weight }}(gms)</option>
+{% endblock boxestypes %}
+
+
+{% block purchasetypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ purchase.item_purchase_12 }}</option>
+{% endblock purchasetypes %}
+
+{% block value-gw %}{{ purchase.gross_weight }}{% endblock value-gw %}
+{% block value-lw %}{{ purchase.less_weight }}{% endblock value-lw %}
+{% block value-nw %}{{ purchase.net_weight }}{% endblock value-nw %}
+
+
+{% block value-rate %}{{ purchase.rate }}{% endblock value-rate %}
+
+
+
+{% block purchase_date %}{{ purchase.inv_date }}{% endblock purchase_date %}
+{% block a_b_gst %}{{ purchase.total_amount }}{% endblock a_b_gst %}
+{% block amount_before_gst %}{{ purchase.total_amount }}{% endblock amount_before_gst %}
+{% block gst %}{{ purchase.gst }}{% endblock gst %}
+{% block gst_p %}{{ purchase.gst }}{% endblock gst_p %}
+{% block tcs %}{{ purchase.tcs }}{% endblock tcs %}
+{% block tcs_p %}{{ purchase.tcs }}{% endblock tcs_p %}
+{% block new_purchase_total %}{{ purchase.total }}{% endblock new_purchase_total %}
+{% block new_purchase_total_p %}{{ purchase.total }}{% endblock new_purchase_total_p %}
+{% block total_amount %}{{ purchase.total }}{% endblock total_amount %}
+{% block total_amount_p %}{{ purchase.total }}{% endblock total_amount_p %}
+
+{% block value-ro %}{{ purchase.rounded_off }}{% endblock value-ro %}
+{% block value-sa %}{{ purchase.settled_amount }}{% endblock value-sa %}
+{% block value-unsa %}{{ purchase.unsettled_amount }}{% endblock value-unsa %}
+
+{% block declaration_types %}
+<option style="background-color:#d3d3d3; color:#111">{{ purchase.declaration }}</option>
+{% endblock declaration_types %}

@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+
+{% block title %} New Purchase {% endblock title %}
+
+{% block navbar-content %}
+<div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'sales_home' %}">View Sales</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'customers_home' %}"><b style="font-size:25px;">Customers</b></a>
+      </li>
+      </ul>
+    </div>
+  </div>
+{% endblock navbar-content %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <br>
+            {% block page-title %}<div>
+
+            </div>{% endblock page-title %}
+            <div class="card card-body mt-3 {% block card-color %} border-dark text-light bg-secondary {% endblock card-color %}">
+                <span class="text-center"><b>{% block card-title %} Enter New Purchase Data Below {% endblock card-title %}</b></span>
+            </div>
+            <form {% block action %} action="/new_purchase/{{ vendor.vendor_id }}" {% endblock action %} method="POST" enctype="multipart/form-data" autocomplete="off" class="card p-3 border-dark mt-3" novalidate>
+               {% csrf_token %}
+
+                {% block value-id %}{% endblock value-id %}
+                <div class="input-group mb-3">
+                    <span class="form-control side-label btn border-success bg-outline-success text-success" style="{% block style-id %}text-align: center;width: 150px{% endblock style-id %};"><h5>{% block vendorid %}{{ vendor.vendor_id }}{% endblock vendorid %}</h5></span>
+                    <span class="form-control side-label btn border-success bg-outline-success text-success" style="{% block style-name %}text-align: center;width: 450px{% endblock style-name %};"><h5>{% block vendor %}<a href="{% url 'vendor' vendor_id=vendor.vendor_id %}" class="text-success" title="View Vendor">{{ vendor.vendor_name }}</a>{% endblock vendor %}</h5></span>
+                </div>
+
+                <div class="row">
+                <div class="col-lg-6">
+
+                <div class="input-group mb-3" hidden>
+                    <span class="side-label btn border-secondary bg-light" style="text-align: left;width: 150px;">Vendor ID</span>
+                    <input id="vendor_id" name="vendor_id" type="text" class="form-control"  maxlength="40" placeholder="Vendor ID" readonly value="{% block vendor_id %}{{ vendor.vendor_id }}{% endblock vendor_id %}" >
+                </div>
+
+                 <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-inv_date %}text-align: left;width: 150px{% endblock style-inv_date %};">{% block inv_date %}Purchase Date{% endblock inv_date %}</span>
+                    <input id="inv_date" type="date" class="form-control" name="inv_date" maxlength="40" placeholder="Enter Purchase Date" required value="{% block value-inv_date %}0{% endblock value-inv_date %}">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-description %}text-align: left;width: 150px{% endblock style-description %};">{% block description %}Description{% endblock description %}</span>
+                    <input id="description" type="text" class="form-control" name="description" maxlength="40" placeholder="Enter Description" value="{% block value-description %}{% endblock value-description %}">
+                </div>
+
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style_metal %}text-align: left;width: 150px{% endblock style_metal %}; border-radius: 4px 0px 0px 4px">{% block metal %}Metal{% endblock metal %}</span>
+                    <select id="metal" class="form-select" name="metal" maxlength="40" placeholder="Select Metal Type" required>
+                        {% block metaltypes %}
+                        <option value="" hidden>Select Metal Type</option>
+                        {% endblock metaltypes %}
+                        <option disabled></option>
+                        <option value="Gold">Gold</option>
+                        <option value="Silver">Silver</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style_hsn %}text-align: left;width: 150px{% endblock style_hsn %}; border-radius: 4px 0px 0px 4px">{% block hsn_sac %}HSN/SAC{% endblock hsn_sac %}</span>
+                    <select id="hsn_sac" class="form-select" name="hsn_sac" maxlength="40" placeholder="Select HSN/SAC Type" required>
+                        {% block hsntypes %}
+                        <option value="" hidden>Select HSN/SAC</option>
+                        {% endblock hsntypes %}
+                        <option disabled></option>
+                        <option value="7113">7113</option>
+                        <option value="7114">7114</option>
+                    </select>
+                </div>
+
+                <div id="purity_gold_div" class="input-group mb-3" style="display:none;">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style_purity_gold %}text-align: left;width: 150px{% endblock style_purity_gold %}; border-radius: 4px 0px 0px 4px">{% block purity_gold %}Gold{% endblock purity_gold %}</span>
+                    <select id="purity_gold" class="form-select" name="purity_gold" maxlength="40" placeholder="Select Purity" required>
+                        {% block purity_gold_types %}
+                        <option value="" hidden>Select Gold Purity</option>
+                        {% endblock purity_gold_types %}
+                        <option disabled></option>
+                        <option value="99.99">Pure (24 Karat)</option>
+                        <option value="91.66">916 (22 Karat)</option>
+                        <option value="88 KDM">88 KDM (20 Karat)</option>
+                        <option value="85.00">85%</option>
+                        <option value="84.00">84%</option>
+                        <option value="83.00">83%</option>
+                        <option value="82.00">82%</option>
+                        <option value="80.00">80%</option>
+                        <option value="78.00">78%</option>
+                        <option value="76.00">76%</option>
+                        <option value="75.00">75% (18 Karat)</option>
+                    </select>
+                </div>
+                <div id="purity_silver_div" class="input-group mb-3" style="display:none;">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style_purity_silver %}text-align: left;width: 150px{% endblock style_purity_silver %}; border-radius: 4px 0px 0px 4px">{% block purity_silver %}Silver{% endblock purity_silver %}</span>
+                    <select id="purity_silver" class="form-select" name="purity_silver" maxlength="40" placeholder="Select Purity" required>
+                        {% block purity_silver_types %}
+                        <option value="" hidden>Select Silver Purity</option>
+                        {% endblock purity_silver_types %}
+                        <option disabled></option>
+                        <option value="99.99">Pure Silver</option>
+                        <option value="92.50">92.5 Antique</option>
+                        <option value="92.50">92.5 Sterling Silver</option>
+                        <option value="90.00">90%</option>
+                        <option value="85.00">85%</option>
+                        <option value="80.00">80%</option>
+                        <option value="75.00">75%</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style_boxes %}text-align: left;width: 150px{% endblock style_boxes %}; border-radius: 4px 0px 0px 4px">{% block boxes %}Box No.{% endblock boxes %}</span>
+                    <select id="box_id" class="form-select" name="box_id" maxlength="40" placeholder="Select Box" required>
+                        {% block boxestypes %}
+                        <option value="" hidden>Select Box No.</option>
+                        {% endblock boxestypes %}
+                        <option disabled></option>
+                        {% for box in boxes %}
+                        <option value="{{box.box_id}}">{{box.box_name}} - {{box.box_metal}} - {{ box.box_total_weight }}(gms)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-gw %}text-align: left;width: 150px{% endblock style-gw %};">{% block gw %}Gross Weight{% endblock gw %}</span>
+                    <input id="gross_weight" type="number" class="form-control" name="gross_weight" maxlength="40" placeholder="Enter Gross Weight" required value="{% block value-gw %}0{% endblock value-gw %}" step="0.001" pattern="\d+(\.\d{1,3})?" title="Invalid Gross Weight.">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-sw %}text-align: left;width: 150px{% endblock style-sw %};">{% block lw %}Stone Weight{% endblock lw %}</span>
+                    <input id="less_weight" type="number" class="form-control" name="less_weight" maxlength="40" placeholder="Enter Less Weight" required value="{% block value-lw %}0{% endblock value-lw %}" step="0.001" pattern="\d+(\.\d{1,3})?" title="Invalid Less Weight.">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-nw %}text-align: left;width: 150px{% endblock style-nw %};">{% block nw %}Net Weight{% endblock nw %}</span>
+                    <input id="net_weight" type="number" class="form-control" name="net_weight" maxlength="40" placeholder="Enter Net Weight" required value="{% block value-nw %}0{% endblock value-nw %}" step="0.001" pattern="\d+(\.\d{1,3})?" title="Invalid Net Weight.">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-rate %}text-align: left;width: 150px{% endblock style-rate %};">{% block rate %}Today's Rate{% endblock rate %}</span>
+                    <input id="metal_rate" type="number" class="form-control" name="rate" maxlength="40" placeholder="Enter Rate" required value="{% block value-rate %}0{% endblock value-rate %}" step="0.001" pattern="\d+(\.\d{1,3})?" title="Invalid Metal Rate.">
+                </div>
+
+
+                <div class="input-group mb-3" style="display:none;">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style_sale_1_2 %}text-align: left;width: 150px{% endblock style_sale_1_2 %}; border-radius: 4px 0px 0px 4px">{% block purchase_1_2 %}Purchase 1/2{% endblock purchase_1_2 %}</span>
+                    <select id="purchase_1_2" class="form-select" name="purchase_1_2" maxlength="40" placeholder="Select Purchase 1 or 2" >
+                        {% block purchasetypes %}
+                        <option value="" hidden>Select Purchase 1 or 2</option>
+                        {% endblock purchasetypes %}
+                        <option disabled></option>
+                        <option value="1">1st</option>
+                        <option value="2">2nd</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3" style="display:none;">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style_delivery_mode %}text-align: left;width: 150px{% endblock style_delivery_mode %}; border-radius: 4px 0px 0px 4px">{% block delivery_mode %}Purchase 1/2{% endblock delivery_mode %}</span>
+                    <select id="delivery_mode" class="form-select" name="delivery_mode" maxlength="40" placeholder="Select Delivery Mode" >
+                        {% block deliverytypes %}
+                        <option value="" hidden>Select Delivery Mode</option>
+                        {% endblock deliverytypes %}
+                        <option disabled></option>
+                        <option value="Courier">Courier</option>
+                        <option value="Collected">Collected</option>
+                        <option value="In Person">In Person</option>
+                    </select>
+                </div>
+
+                </div>
+                </div>
+
+                <br>
+
+                <div class="mt-4" style="width: 100%;">
+                    <button type="button" id="calculate" class="btn btn-outline-success mb-3">
+                        {% block btn-calc %}<i class="fa-solid fa-calculator"></i>&nbsp;&nbsp; Calculate {% endblock btn-calc%}
+                    </button>
+                    <button id="reset_button" type="reset" class="btn btn-outline-success mb-3" style="width:50px;" title="Reset">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+
+                <br>
+                <div class="mb-3">
+                 <div class="card  border-success mb-3 " style="width: 50rem;">
+                  <div class="card-header form-control">
+                      <h4 class="card-title text-success" style='display:inline-block;'><b >Sale Calculation</b></h4><h5 class="card-title text-success" id="net_gross" name="net_gross" style='display:inline-block;'>{% block net_gross %}{% endblock net_gross %}</h5><span id="sale_date" style='display:inline-block;float:right;'>{% block sale_date %}{% endblock sale_date %}</span></div>
+                     <div class="card-body ">
+                        <div class="container">
+                          <div class="row border p-3">
+                            <div class="col-6 border p-3"><strong>Amount Before GST </strong></div>
+                            <div class="col-6 border p-3 text-success form-text" name="a_b_gst" id="a_b_gst">{% block a_b_gst %}{% endblock a_b_gst %}</div>
+                            <input id="amount_before_gst" name="amount_before_gst" type="number" class="form-control" value="{% block amount_before_gst %}0{% endblock amount_before_gst %}" hidden>
+                          </div>
+                          <div class="row border p-3">
+                            <div class="col-6 border p-3"><strong>IGST </strong></div>
+                            <div class="col-6 border p-3 text-success form-text" name="gst" id="gst">{% block gst %}{% endblock gst %}</div>
+                            <input id="gst_p" name="gst_p" type="number" class="form-control" value="{% block gst_p %}0{% endblock gst_p %}" hidden>
+                          </div>
+                          <div class="row border p-3">
+                            <div class="col-6 border p-3"><strong>TCS @0.1% </strong></div>
+                            <div class="col-6 border p-3 text-success form-text" name="tcs" id="tcs">{% block tcs %}{% endblock tcs %}</div>
+                            <input id="tcs_p" name="tcs_p" type="number" class="form-control" value="{% block tcs_p %}0{% endblock tcs_p %}" hidden>
+                          </div>
+                          <div class="row border p-3">
+                            <div class="col-6 border p-3"><strong>New Purchase Total </strong></div>
+                            <div class="col-6 border p-3 text-success form-text" name="new_purchase_total" id="new_purchase_total">{% block new_purchase_total %}{% endblock new_purchase_total %}</div>
+                            <input id="new_purchase_total_p" name="new_purchase_total_p" type="number" class="form-control" value="{% block new_purchase_total_p %}0{% endblock new_purchase_total_p %}" hidden>
+                          </div>
+                        </div>
+                  </div>
+                    <div class="card-footer">
+                        <p><strong>Total Amount : </strong> <b class="form-text" id="total_amount" name="total_amount" style="font-size:30px;">{% block total_amount %}{% endblock total_amount %}</b></p>
+                         <input id="total_amount_p" name="total_amount_p" type="number" class="form-control" value="{% block total_amount_p %}0{% endblock total_amount_p %}" hidden>
+                    </div>
+                 </div>
+                </div>
+
+                <div class="row">
+                <div class="col-lg-6">
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-ro %}text-align: left;width: 150px{% endblock style-ro %};">{% block rounded_off %}Rounded Off{% endblock rounded_off %}</span>
+                    <input id="rounded_off" type="number" class="form-control" name="rounded_off" maxlength="40" placeholder="Enter Rounded Off Amount" required value="{% block value-ro %}0{% endblock value-ro %}" step="0.001" pattern="\d+(\.\d{1,3})?" title="Invalid Input.">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-sa %}text-align: left;width: 150px{% endblock style-sa %};">{% block settled_amount %}Settled Amount{% endblock settled_amount %}</span>
+                    <input id="settled_amount" type="number" class="form-control" name="settled_amount" maxlength="40" placeholder="Enter Settled Amount" required value="{% block value-sa %}0{% endblock value-sa %}" step="0.001" pattern="\d+(\.\d{1,3})?" title="Invalid Input.">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-unsa %}text-align: left;width: 150px{% endblock style-unsa %};">{% block unsettled_amount %}Unsettled Amount{% endblock unsettled_amount %}</span>
+                    <input id="unsettled_amount" type="number" class="form-control" name="unsettled_amount" maxlength="40" placeholder="Enter Unsettled Amount" required value="{% block value-unsa %}0{% endblock value-unsa %}" step="0.001" pattern="\d+(\.\d{1,3})?" title="Invalid Input.">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style_declaration %}text-align: left;width: 150px{% endblock style_declaration %}; border-radius: 4px 0px 0px 4px">{% block declaration %}Declaration{% endblock declaration %}</span>
+                    <select id="declaration" class="form-select" name="declaration" maxlength="40" placeholder="Select Declaration Type" >
+                        {% block declaration_types %}
+                        <option value="" hidden>Select Declaration Type</option>
+                        {% endblock declaration_types %}
+                        <option disabled></option>
+                        <option value="Complete">Purchase Complete</option>
+                        <option value="Incomplete">Purchase Incomplete</option>
+                    </select>
+                </div>
+
+                <div class="mt-4" style="width: 100%;">
+                    <button type="submit" class="btn btn-outline-secondary mb-3">
+                        {% block btn-action %}<i class="fa-sharp fa-solid fa-arrows-turn-right"></i>&nbsp; Proceed {% endblock btn-action %}
+                    </button>
+                    <a href="{% url 'purchases_home' %}" class="btn btn-outline-secondary mb-3 ms-2" style="width:50px;" title="Back">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <button type="reset" class="btn btn-outline-secondary mb-3 ms-2" style="width:50px;" title="Reset">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br><br><br>
+
+
+</div>
+
+
+{% endblock content %}

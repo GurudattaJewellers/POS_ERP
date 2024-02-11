@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Customers {% endblock title %}
+{% block js_scripts %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+{% endblock js_scripts %}
+{% block navbar-content %}
+<div class="container-fluid scrollable-content">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'customers_home' %}"><b style="font-size:25px;">Customers</b></a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'sales_home' %}"><b style="font-size:25px;">Sales</b></a>
+        </li>
+      </ul>
+    </div>
+</div>{% endblock navbar-content %}
+{% block content %}
+<br>
+<div class="container-fluid" style="width: auto; margin: auto;">
+    <div class="row">
+        <div class="mb-3">
+            <a class="btn btn-outline-secondary btn-sn" data-bs-toggle="modal" data-bs-target="#AddBoxModal" ><i class="fa-solid fa-box"></i>&nbsp;&nbsp;Add Box</a>
+        </div>
+        <div class="col-lg-12">
+            <br>
+            {% for box in boxes %}
+                <div class="card rounded" >
+                  <div class="card-body">
+                      <div class="d-flex align-items-center justify-content-between">
+                          <div>
+                            <h4 class="card-title card-header" style="background-color: {% if box.box_metal == 'Gold' %} #D1B000  {% else %} Silver {% endif %};"><b>{{ box.box_name }}</b></h4>
+                          </div>
+                          <div>
+                              <a href="{% url 'get_box_sale_history' box_id=box.box_id %}" class="history btn btn-outline-secondary ms-auto" data-box-id="{{ box.box_id }}" data-bs-toggle="modal" data-bs-target="#box-history-modal" title="Box History">
+                                <i class="fas fa-eye"></i>
+                              </a>
+                              <a href="{% url 'edit_box' box_id=box.box_id %}" class="edit-box btn btn-outline-secondary ms-auto" data-box-id="{{ box.box_id }}" data-bs-toggle="modal" data-bs-target="#EditBoxModal" title="Edit Customer">
+                                <i class="fas fa-pen"></i>
+                              </a>
+                          </div>
+                        </div>
+                      <br>
+                      <p class="card-text"><strong>Metal:</strong> {{ box.box_metal }}</p>
+                      <p class="card-text"><strong>Total Weight:</strong> {{ box.box_total_weight }}</p>
+                      <p class="card-text"><strong>Updated Date:</strong> {{ box.box_added_date }}</p>
+                    <!--{% if box_deleted %}
+                      <p class="card-text">Deleted: Yes</p>
+                    {% else %}
+                      <p class="card-text">Deleted: No</p>
+                    {% endif %}-->
+                  </div>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="AddBoxModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel"><i class="fa-solid fa-box"></i> Add New Box</h4>
+      </div>
+      <div class="modal-body">
+        <form {% block action %} action="/new_box" {% endblock action %} method="POST" enctype="multipart/form-data" autocomplete="off" class="card p-3 border-dark mt-3">
+               {% csrf_token %}
+
+                {% block value-id %}{% endblock value-id %}
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-boxname %}width: 150px{% endblock style-boxname %};">{% block boxname %}Box Name{% endblock boxname %}</span>
+                    <input type="text" class="form-control" name="box_name" maxlength="40" placeholder="Enter Box Name" required value="{% block value-boxname %}{% endblock value-boxname %}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-boxweight %}width: 150px{% endblock style-boxweight %};">{% block boxweight %}Box Weight{% endblock boxweight %}</span>
+                    <input type="number" class="form-control" name="box_weight" maxlength="40" placeholder="Enter Box Weight" required value="{% block value-boxweight %}{% endblock value-boxweight %}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="{% block style-box_metal %}width: 150px{% endblock style-box_metal %}; border-radius: 4px 0px 0px 4px">Box Metal</span>
+                    <select id="box_metal" class="form-select" name="box_metal" maxlength="40" placeholder="Select Metal Type" required>
+                        {% block box_metal %}
+                        <option value="" hidden>Select Option</option>
+                        {% endblock box_metal %}
+                        <option disabled></option>
+                        <option value="Gold" >Gold</option>
+                        <option value="Silver" >Silver</option>
+                    </select>
+                </div>
+
+                <!--<div class="form-group">
+                    <textarea class="form-control" name="note" rows="7" maxlength="1000" placeholder="Description is Optional">{% block note %}{% endblock note %}</textarea>
+                </div>-->
+
+                <div class="mt-4" style="width: 100%;">
+                    <button type="submit" class="btn btn-outline-secondary mb-3">
+                        {% block btn-action %}<i class="fas fa-plus"></i>&nbsp;&nbsp; Add Box {% endblock btn-action %}
+                    </button>
+                    <a class="btn btn-outline-dark mb-3 ms-2" data-bs-dismiss="modal" style="width:50px;" title="Back">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <button type="reset" class="btn btn-outline-dark mb-3 ms-2" style="width:50px;" title="Reset">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="EditBoxModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel2"><i class="fa-solid fa-pen"></i> Edit Box Here</h4><p id="updated_date" class="float-right" style="display:inline;"></p>
+      </div>
+      <div class="modal-body">
+        <form id="EditForm" method="POST" enctype="multipart/form-data" autocomplete="off" class="card p-3 border-dark mt-3">
+               {% csrf_token %}
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="width: 150px;">Box Name</span>
+                    <input type="text" id="box_id" class="form-control" name="box_id" maxlength="40" placeholder="Box Id" required readonly>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="width: 150px;">Box Name</span>
+                    <input type="text" id="box_name" class="form-control" name="box_name" maxlength="40" placeholder="Enter Box Name" required >
+                </div>
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="width: 150px;">Box Weight</span>
+                    <input type="number" id="box_weight" class="form-control" name="box_weight" maxlength="40" placeholder="Enter Box Weight" required >
+                </div>
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="width: 150px;">Enter Add Weight</span>
+                    <input type="number" id="add_weight" class="form-control" name="add_weight" maxlength="40" placeholder="Enter Addon Weight" required >
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="width: 150px;">Total Weight</span>
+                    <input type="number" id="total_weight" class="form-control" name="total_weight" maxlength="40" placeholder="Total Weight" required >
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn border-secondary bg-light" style="width: 150px; border-radius: 4px 0px 0px 4px">Box Metal</span>
+                    <select id="box_metal2" class="form-select" name="box_metal" maxlength="40" placeholder="Select Metal Type" required>
+                        <option value="" hidden>Select Metal Type</option>
+                        <option disabled></option>
+                        <option value="Gold" >Gold</option>
+                        <option value="Silver" >Silver</option>
+                    </select>
+                </div>
+
+                <div class="mt-4" style="width: 100%;">
+                    <button type="submit" class="btn btn-outline-secondary mb-3" data-bs-dismiss="toast">
+                        <i class="fas fa-pen"></i>&nbsp;&nbsp; Edit Box
+                    </button>
+                    <a class="btn btn-outline-dark mb-3 ms-2" data-bs-dismiss="modal" style="width:50px;" title="Back">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <button type="reset" class="btn btn-outline-dark mb-3 ms-2" style="width:50px;" title="Reset">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="box-history-modal" tabindex="-1" role="dialog" aria-labelledby="boxSaleHistoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="boxSaleHistoryModalLabel">Box Sale & Purchase History</h5>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="sale-history-tab" data-bs-toggle="tab" data-bs-target="#sale-history" type="button" role="tab" aria-controls="sale-history" aria-selected="true">Sale History</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="purchase-history-tab" data-bs-toggle="tab" data-bs-target="#purchase-history" type="button" role="tab" aria-controls="purchase-history" aria-selected="false">Purchase History</button>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="sale-history" role="tabpanel" aria-labelledby="sale-history-tab">
+            <br>
+              <table id="saleHistoryTable" style="width:100%" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Box Name</th>
+                  <th>Item Name</th>
+                  <th>Item Weight</th>
+                  <th>Item Sale Type</th>
+                  <th>Item Sale 12</th>
+                  <th>Sale ID</th>
+                  <th>Box Updated Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Data will be populated dynamically with AJAX call -->
+              </tbody>
+            </table>
+              <br>
+          </div>
+          <div class="tab-pane fade" id="purchase-history" role="tabpanel" aria-labelledby="purchase-history-tab">
+              <br>
+            <table id="purchaseHistoryTable" style="width:100%" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Box Name</th>
+                  <th>Box Total Weight</th>
+                  <th>Box Added Weight</th>
+                  <th>Box Existed Weight</th>
+                  <th>Item Purchase 12</th>
+                  <th>Purchase ID</th>
+                  <th>Box Updated Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Data will be populated dynamically with AJAX call -->
+              </tbody>
+            </table>
+              <br>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="toast toast-color" id="notification"
+                data-delay="3000">
+        <div class="toast-header toast-color">
+            <strong class="mr-auto">Success</strong>
+            <small>Box Updated</small>
+
+            <button type="button" class="ml-2 mb-1 close"
+                    data-bs-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+
+        <!--<div class="toast-body">
+            Hi! You just scrolled the paragaraph.
+        </div>-->
+    </div>
+
+{% endblock content %}

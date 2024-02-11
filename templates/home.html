@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} Gurudatta Space {% endblock title %}
+
+{% block navbar-content %}
+<i class="fa-solid fa-house"></i>&nbsp;
+{% endblock navbar-content %}
+
+{% block content %}
+<div class="container">
+    <br><br>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">INVOICING</h4>
+          <p class="card-text">SALES AND CUSTOMERS APP</p>
+          <a href="{% url 'customers_home' %}" class="btn btn-outline-secondary btn-sn">Click Here</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">PURCHASE</h4>
+          <p class="card-text">BILLS AND VENDORS APP</p>
+          <a href="{% url 'customers_home' %}" class="btn btn-outline-secondary btn-sn">Click Here</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">INVENTORY</h4>
+          <p class="card-text">SILVER AND GOLD STOCK POSITION APP</p>
+          <a href="{% url 'boxes_home' %}" class="btn btn-outline-secondary btn-sn">Click Here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

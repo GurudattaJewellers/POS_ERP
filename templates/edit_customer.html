@@ -1,0 +1,112 @@
+{% extends 'new_customer.html' %}
+
+{% block title %} Edit Customer {% endblock title %}
+{% block navbar-content %}
+<div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'customers_home' %}">View Customers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'new_customer' %}">New Customer</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'sales_home' %}"><b style="font-size:25px;">Sales</b></a>
+      </li>
+      </ul>
+    </div>
+  </div>
+{% endblock navbar-content %}
+
+
+
+{% block card-color %} border-dark bg-warning {% endblock card-color %}
+{% block page-title %}<div>
+                <strong><h4>Edit Customer Details Below</h4></strong>
+            </div>{% endblock page-title %}
+{% block card-title %} <strong> Registered at :</strong> <span> {{ customer.cus_added_date }} </span> {% endblock card-title %}
+
+{% block action %} action="/edit_customer/{{ customer.customer_id }}" {% endblock action %}
+{% block btn-action %} <i class="fas fa-server"></i>&nbsp; Save Changes {% endblock btn-action %}
+
+{% block value-id %}
+    <div class="input-group mb-3">
+        <span class="side-label btn border-secondary bg-light" style="text-align: left;width: 120px;">Customer-ID</span>
+        <input type="text" class="form-control" name="customer_id" value="{{customer.customer_id}}" readonly>
+    </div>
+{% endblock value-id %}
+
+{% block user %} Name {% endblock user %}
+{% block style-name %} text-align: left;width:120px {% endblock style-name %}
+{% block value-customer %}{{customer.customer_name}}{% endblock value-customer %}
+
+{% block address1 %} Address {% endblock address1 %}
+{% block style-address1 %} text-align: left;width:120px {% endblock style-address1 %}
+{% block value-address1 %}{{customer.customer_address}}{% endblock value-address1 %}
+
+{% block address2 %} City {% endblock address2 %}
+{% block style-address2 %} text-align: left;width:120px {% endblock style-address2 %}
+{% block value-address2 %}{{customer.customer_address2}}{% endblock value-address2 %}
+
+{% block emailid %} Email ID {% endblock emailid %}
+{% block style-emailid %} text-align: left;width:120px {% endblock style-emailid %}
+{% if "None" in cus_emailid %}
+    {% block value-emailid %}{{ customer.cus_emailid }}{% endblock value-emailid %}
+{% else %}
+    <p></p>
+{% endif %}
+
+{% block gstin %} GSTIN {% endblock gstin %}
+{% block style-gstin %} text-align: left;width:120px {% endblock style-gstin %}
+{% if "None" in cus_gstin %}
+    {% block value-gstin %}{{customer.cus_gstin}}{% endblock value-gstin %}
+{% else %}
+    <p></p>
+{% endif %}
+
+{% block state %} State {% endblock state %}
+{% block style-state %} text-align: left;width:120px {% endblock style-state %}
+{% block value-state %}{{customer.cus_state}}{% endblock value-state %}
+
+{% block statecode %} State Code {% endblock statecode %}
+{% block style-statecode %} text-align: left;width:120px {% endblock style-statecode %}
+{% block value-statecode %}{{customer.cus_state_code}}{% endblock value-statecode %}
+
+{% block mobileno %} Mobile No {% endblock mobileno %}
+{% block style-mobileno %} text-align: left;width:120px {% endblock style-mobileno %}
+{% block value-mobileno %}{{customer.cus_mobile_no}}{% endblock value-mobileno %}
+
+{% block mobileno2 %} Mobile No-2 {% endblock mobileno2 %}
+{% block style-mobileno2 %} text-align: left;width:120px {% endblock style-mobileno2 %}
+{% if "None" in cus_mobile_no2 %}
+    {% block value-mobileno2 %}{{customer.cus_mobile_no2}}{% endblock value-mobileno2 %}
+{% else %}
+    <p></p>
+{% endif %}
+
+{% block pan %} PAN {% endblock pan %}
+{% block style-pan %} text-align: left;width:120px {% endblock style-pan %}
+{% block value_pan %}{{ customer.cus_pan_no }}{% endblock value_pan %}
+
+{% block aadhar %} Aadhar {% endblock aadhar %}
+{% block style-aadhar %} text-align: left;width:120px {% endblock style-aadhar %}
+{% if "None" in cus_aadhar_no %}
+    {% block value-aadhar %}{{customer.cus_aadhar_no}}{% endblock value-aadhar %}
+{% else %}
+    <p></p>
+{% endif %}
+
+{% block kyc_v %} KYC {% endblock kyc_v %}
+{% block style-kyc_v %} text-align: left;width:120px {% endblock style-kyc_v %}
+{% block kyc %}
+<option style="background-color:#d3d3d3; color:#111">{{ customer.cus_kyc }}</option>
+{% endblock kyc%}

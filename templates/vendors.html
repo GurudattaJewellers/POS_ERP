@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Vendors {% endblock title %}
+{% block js_scripts %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+
+{% endblock js_scripts %}
+{% block navbar-content %}
+<div class="container-fluid scrollable-content">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'customers_home' %}"><b style="font-size:25px;">Customers</b></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'sales_home' %}"><b style="font-size:25px;">Sales</b></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'purchases_home' %}"><b style="font-size:25px;">Purchases</b></a>
+        </li>
+      </ul>
+    </div>
+</div>{% endblock navbar-content %}
+{% block content %}
+
+
+    <div class="container-fluid " style="width: auto; margin: auto;">
+        <br>
+        <div>
+            <a href="{% url 'new_vendor' %}" class="btn btn-outline-secondary btn-sn"><i class="fa-solid fa-user-plus"></i>&nbsp;&nbsp;Add Vendor</a>
+        </div>
+        <br>
+        <div>
+            <strong>Toggle column -> </strong> <a class="toggle-vis" data-column="0">Vendor ID</a> - <a class="toggle-vis" data-column="1">Name</a> - <a class="toggle-vis" data-column="2">Address</a> - <a class="toggle-vis" data-column="3">City</a> - <a class="toggle-vis" data-column="4">Email ID</a> - <a class="toggle-vis" data-column="5">GSTIN</a> - <a class="toggle-vis" data-column="6">State</a>
+            - <a class="toggle-vis" data-column="7">State Code</a> - <a class="toggle-vis" data-column="8">Mobile No</a> - <a class="toggle-vis" data-column="9">Mobile No-2</a> - <a class="toggle-vis" data-column="10">Bank Name</a> - <a class="toggle-vis" data-column=11>Bank Branch</a> - <a class="toggle-vis" data-column="12">Account Details</a> -
+            <a class="toggle-vis" data-column="13">Registered Date</a> - <a class="toggle-vis" data-column="14">Actions</a>
+        </div>
+        <br>
+        <table id="vendorTable" class="display nowrap table table-striped table-responsive table-hover table-bordered table-dark table-sm mt-4">
+        <caption>List of Vendors</caption>
+            <thead class="thead-dark">
+            <tr>
+                <th style="text-align: center;" align="center" scope="col" class="text-center" >Vendor ID</th>
+                <th style="text-align: center;" scope="col" >Name</th>
+                <th style="text-align: center;" scope="col" >Address</th>
+                <th style="text-align: center;" scope="col" >City</th>
+                <th style="text-align: center;" scope="col" >Email ID</th>
+                <th style="text-align: center;" scope="col" >GSTIN</th>
+                <th style="text-align: center;" scope="col" >State</th>
+                <th style="text-align: center;" scope="col" >State Code</th>
+                <th style="text-align: center;" scope="col" >Mobile No</th>
+                <th style="text-align: center;" scope="col" >Mobile No 2</th>
+                <th style="text-align: center;" scope="col" >Bank Name</th>
+                <th style="text-align: center;" scope="col" >Bank Branch</th>
+                <th style="text-align: center;" scope="col" >Account Details</th>
+                <th style="text-align: center;" scope="col" >Registered Date</th>
+                <th style="text-align: center;" scope="col" >Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vendor in vendors %}
+            <tr>
+                <th class="table-secondary" scope="row" >{{ vendor.vendor_id }}</th>
+                <th scope="row" class="table-secondary" ><a href="{% url 'vendor' vendor_id=vendor.vendor_id %}" title="View Vendor">{{ vendor.vendor_name }}</a></th>
+                <td class="table-secondary" >{{ vendor.vendor_address }}</td>
+                <td class="table-secondary" >{{ vendor.vendor_address2 }}</td>
+                <td class="table-secondary" >{{ vendor.ven_emailid }}</td>
+                <td class="table-secondary">{{ vendor.ven_gstin }}</td>
+                <td class="table-secondary">{{ vendor.ven_state }}</td>
+                <td class="table-secondary">{{ vendor.ven_state_code }}</td>
+                <td class="table-secondary" >{{ vendor.ven_mobile_no }}</td>
+                <td class="table-secondary">{{ vendor.ven_mobile_no2 }}</td>
+                <td class="table-secondary">{{ vendor.ven_bank_name }}</td>
+                <td class="table-secondary">{{ vendor.ven_bank_branch }}</td>
+                <td class="table-secondary" >{{ vendor.ven_ac_no }} ({{ vendor.ven_ifsc_code }})</td>
+                <td class="table-secondary" >{{ vendor.ven_added_date }}</td>
+                <td scope="row" class="table-secondary" >
+                    <div style="  display: flex;justify-content: space-between;flex: 1;margin: 0 5px;">
+                    <a style="flex: 1;margin: 0 5px;" href="{% url 'new_purchase' vendor_id=vendor.vendor_id %}" class="btn btn-outline-secondary" title="New Purchase">
+                        <i class="fas fa-plus" style="display: inline-block;"></i>
+                    </a>&nbsp;
+                    <a style="flex: 1;margin: 0 5px;" href="{% url 'edit_vendor' vendor_id=vendor.vendor_id %}" class="btn btn-outline-primary" title="Edit Vendor">
+                        <i class="fas fa-pen" style="display: inline-block;"></i>
+                    </a>&nbsp;
+                    <a style="flex: 1;margin: 0 5px;" href="{% url 'delete_vendor' vendor_id=vendor.vendor_id %}" class="btn btn-outline-danger" title="Delete Vendor">
+                        <i class="fas fa-trash-alt" style="display: inline-block;"></i>
+                    </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+        <!--<div class="input-group">
+            <input type="text" onkeyup="myFunction()" id="input_mob_no" class="form-control" name="input_mob_no" maxlength="40" placeholder="Search by Customer Mobile No">
+        </div>-->
+    </div>
+
+{% endblock content %}
+
+

@@ -1,0 +1,111 @@
+{% extends 'new_vendor.html' %}
+
+{% block title %} Edit Vendor {% endblock title %}
+{% block navbar-content %}
+<div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'vendors_home' %}">View Vendors</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'new_vendor' %}">New Vendor</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'sales_home' %}"><b style="font-size:25px;">Sales</b></a>
+      </li>
+      </ul>
+    </div>
+  </div>
+{% endblock navbar-content %}
+
+
+
+{% block card-color %} border-dark bg-warning {% endblock card-color %}
+{% block page-title %}<div>
+                <strong><h4>Edit Vendor Details Below</h4></strong>
+            </div>{% endblock page-title %}
+{% block card-title %} <strong> Registered at :</strong> <span> {{ vendor.ven_added_date }} </span> {% endblock card-title %}
+
+{% block action %} action="/edit_vendor/{{ vendor.vendor_id }}" {% endblock action %}
+{% block btn-action %} <i class="fas fa-server"></i>&nbsp; Save Changes {% endblock btn-action %}
+
+{% block value-id %}
+    <div class="input-group mb-3">
+        <span class="side-label btn border-secondary bg-light" style="text-align: left;width: 120px;">Vendor-ID</span>
+        <input type="text" class="form-control" name="vendor_id" value="{{vendor.vendor_id}}" readonly>
+    </div>
+{% endblock value-id %}
+
+{% block vendor %} Name {% endblock vendor %}
+{% block style-name %} text-align: left;width:120px {% endblock style-name %}
+{% block value-vendor %}{{vendor.vendor_name}}{% endblock value-vendor %}
+
+{% block address1 %} Address {% endblock address1 %}
+{% block style-address1 %} text-align: left;width:120px {% endblock style-address1 %}
+{% block value-address1 %}{{vendor.vendor_address}}{% endblock value-address1 %}
+
+{% block address2 %} City {% endblock address2 %}
+{% block style-address2 %} text-align: left;width:120px {% endblock style-address2 %}
+{% block value-address2 %}{{vendor.vendor_address2}}{% endblock value-address2 %}
+
+{% block emailid %} Email ID {% endblock emailid %}
+{% block style-emailid %} text-align: left;width:120px {% endblock style-emailid %}
+{% if "None" in ven_emailid %}
+    {% block value-emailid %}{{ vendor.ven_emailid }}{% endblock value-emailid %}
+{% else %}
+    <p></p>
+{% endif %}
+
+{% block gstin %} GSTIN {% endblock gstin %}
+{% block style-gstin %} text-align: left;width:120px {% endblock style-gstin %}
+{% if "None" in ven_gstin %}
+    {% block value-gstin %}{{vendor.ven_gstin}}{% endblock value-gstin %}
+{% else %}
+    <p></p>
+{% endif %}
+
+{% block state %} State {% endblock state %}
+{% block style-state %} text-align: left;width:120px {% endblock style-state %}
+{% block value-state %}{{vendor.ven_state}}{% endblock value-state %}
+
+{% block statecode %} State Code {% endblock statecode %}
+{% block style-statecode %} text-align: left;width:120px {% endblock style-statecode %}
+{% block value-statecode %}{{vendor.ven_state_code}}{% endblock value-statecode %}
+
+{% block mobileno %} Mobile No {% endblock mobileno %}
+{% block style-mobileno %} text-align: left;width:120px {% endblock style-mobileno %}
+{% block value-mobileno %}{{vendor.ven_mobile_no}}{% endblock value-mobileno %}
+
+{% block mobileno2 %} Mobile No-2 {% endblock mobileno2 %}
+{% block style-mobileno2 %} text-align: left;width:120px {% endblock style-mobileno2 %}
+{% if "None" in ven_mobile_no2 %}
+    {% block value-mobileno2 %}{{vendor.ven_mobile_no2}}{% endblock value-mobileno2 %}
+{% else %}
+    <p></p>
+{% endif %}
+
+{% block bankname %} Bank Name {% endblock bankname %}
+{% block style-bankname %} text-align: left;width:120px {% endblock style-bankname %}
+{% block value_bankname %}{{ vendor.ven_bank_name }}{% endblock value_bankname %}
+
+{% block bankbranch %} Bank Branch {% endblock bankbranch %}
+{% block style-bankbranch %} text-align: left;width:120px {% endblock style-bankbranch %}
+{% block value_bankbranch %}{{ vendor.ven_bank_branch }}{% endblock value_bankbranch %}
+
+{% block acno %} Account No {% endblock acno %}
+{% block style-acno %} text-align: left;width:120px {% endblock style-acno %}
+{% block value_acno %}{{ vendor.ven_ac_no }}{% endblock value_acno %}
+
+{% block ifsc %} IFSC Code {% endblock ifsc %}
+{% block style-ifsc %} text-align: left;width:120px {% endblock style-ifsc %}
+{% block value_ifsc %}{{ vendor.ven_ifsc_code }}{% endblock value_ifsc %}
+

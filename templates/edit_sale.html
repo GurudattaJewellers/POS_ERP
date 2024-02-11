@@ -1,0 +1,143 @@
+{% extends 'new_sale.html' %}
+
+{% block title %} Edit Sale {% endblock title %}
+
+{% block navbar-content %}
+<div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'sales_home' %}">View Sales</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'customers_home' %}"><b style="font-size:25px;">Customers</b></a>
+      </li>
+      </ul>
+    </div>
+  </div>
+{% endblock navbar-content %}
+
+{% block card-color %} border-dark bg-warning {% endblock card-color %}
+{% block page-title %}<div> <strong><h4>Edit Sales Details Below</h4></strong></div>{% endblock page-title %}
+{% block card-title %} <strong> Sold at :</strong> <span> {{ sale.sale_date }} </span> {% endblock card-title %}
+
+
+{% block newcard-color %} border-dark bg-warning {% endblock newcard-color %}
+{% block newcard-title %} Edit New Ornaments/Articles {% endblock newcard-title %}
+
+{% block action %} action="/edit_sale/{{ sale.invoice_no }}/{{ sale.item_sale_12 }}" {% endblock action %}
+{% block btn-action %} <i class="fas fa-server"></i>&nbsp; Save Changes {% endblock btn-action %}
+
+{% block value-id %}
+    <div class="input-group mb-3">
+        <span class="side-label btn border-secondary bg-light" style="text-align: left;width: 120px;">Invoice ID</span>
+        <input type="text" class="form-control" name="invoice_no" value="{{sale.invoice_no}}" readonly>
+    </div>
+{% endblock value-id %}
+
+{% block userid %}{{ customer.customer_id }}{% endblock userid %}
+{% block customer_id %}{{ customer.customer_id }}{% endblock customer_id %}
+{% block user %}<a href="{% url 'customer' customer_id=customer.customer_id  %}" class="text-success" title="View Customer">{{ customer.customer_name }}</a>{% endblock user %}
+
+{% block metaltypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.metal }}</option>
+{% endblock metaltypes%}
+
+{% block hsntypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.HSN_SAC_Code }}</option>
+{% endblock hsntypes %}
+
+{% block purity_gold_types %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.Purity }}</option>
+{% endblock purity_gold_types %}
+
+{% block purity_silver_types %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.Purity }}</option>
+{% endblock purity_silver_types %}
+
+{% block ornamenttypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.ornament_type }}</option>
+{% endblock ornamenttypes %}
+
+{% block boxestypes %}
+<option style="background-color:#d3d3d3; color:#111">{{box.box_id}} - {{box.box_name}} - {{box.box_metal}} - {{ box.box_total_weight }}(gms)</option>
+{% endblock boxestypes %}
+
+{% block itemsaletypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.item_sale_type }}</option>
+{% endblock itemsaletypes %}
+
+{% block saletypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.item_sale_12 }}</option>
+{% endblock saletypes %}
+
+{% block value-wtg %}{{ sale.weight_with_tag }}{% endblock value-wtg %}
+{% block value-gw %}{{ sale.gross_weight }}{% endblock value-gw %}
+{% block value-sw %}{{ sale.stone_weight }}{% endblock value-sw %}
+{% block value-nw %}{{ sale.net_weight }}{% endblock value-nw %}
+
+{% block value_added %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.value_added }}</option>
+{% endblock value_added %}
+
+{% block value-HUID %}{{ sale.HUID }}{% endblock value-HUID %}
+
+{% block va_gross %}{% endblock va_gross %}
+{% block va_net %}{% endblock va_net %}
+
+{% block value-mc %}{{ sale.making_charge }}{% endblock value-mc %}
+{% block value-rate %}{{ sale.rate }}{% endblock value-rate %}
+{% block value-sc %}{{ sale.stone_cost }}{% endblock value-sc %}
+
+{% block oldcard-color %} border-dark bg-warning {% endblock oldcard-color %}
+{% block oldcard-title %} Edit Old Ornaments/Articles {% endblock oldcard-title %}
+
+{% block oldmetaltypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.old_metal_type }}</option>
+{% endblock oldmetaltypes %}
+
+{% block olditemstypes %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.old_items_type }}</option>
+{% endblock olditemstypes %}
+
+{% block value-oldweight %}{{ sale.old_items_weight }}{% endblock value-oldweight %}
+{% block value-olddust %}{{ sale.old_items_dust }}{% endblock value-olddust %}
+{% block value-oldtouch %}{{ sale.old_items_touch }}{% endblock value-oldtouch %}
+{% block value-oldrate %}{{ sale.old_items_rate }}{% endblock value-oldrate %}
+
+{% block net_gross %} (On {{ sale.cal_mode }}){% endblock net_gross %}
+{% block net_gross_p %}{{ sale.cal_mode }}{% endblock net_gross_p %}
+{% block sale_date %}{{ sale.sale_date }}{% endblock sale_date %}
+{% block a_b_gst %}{{ sale.amount_before_gst }}{% endblock a_b_gst %}
+{% block amount_before_gst %}{{ sale.amount_before_gst }}{% endblock amount_before_gst %}
+{% block cgst %}{{ sale.cgst }}{% endblock cgst %}
+{% block cgst_p %}{{ sale.cgst }}{% endblock cgst_p %}
+{% block sgst %}{{ sale.sgst }}{% endblock sgst %}
+{% block sgst_p %}{{ sale.sgst }}{% endblock sgst_p %}
+{% block new_sale_total %}{{ sale.amount_after_gst }}{% endblock new_sale_total %}
+{% block new_sale_total_p %}{{ sale.amount_after_gst }}{% endblock new_sale_total_p %}
+{% block old_quote %}{{ sale.old_items_totalvalue }}{% endblock old_quote %}
+{% block old_quote_p %}{{ sale.old_items_totalvalue }}{% endblock old_quote_p %}
+{% block total_amount %}{{ sale.total_amount }}{% endblock total_amount %}
+{% block total_amount_p %}{{ sale.total_amount }}{% endblock total_amount_p %}
+{% block value-discount %}{{ sale.discount }}{% endblock value-discount %}
+
+{% block value-sa %}{{ sale.settled_amount }}{% endblock value-sa %}
+{% block value-unsa %}{{ sale.unsettled_amount }}{% endblock value-unsa %}
+
+{% block declaration_types %}
+<option style="background-color:#d3d3d3; color:#111">{{ sale.declaration }}</option>
+{% endblock declaration_types %}
+
+{% block value-bycash %}{{ sale.bycash }}{% endblock value-bycash %}
+{% block value-bycard %}{{ sale.bycard }}{% endblock value-bycard %}
+{% block value-byupi %}{{ sale.byupi }}{% endblock value-byupi %}
+{% block value-byib %}{{ sale.byib }}{% endblock value-byib %}

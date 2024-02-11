@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Gurudatta Jewellery Invoice</title>
+	<!-- CSS -->
+
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			font-size: 13px;
+		}
+		h1 {
+			font-size: 28px;
+			text-align: center;
+			margin-top: 50px;
+		}
+
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+			border: 1px solid #ccc;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 25px;
+		}
+		table th,
+		table td {
+			padding: 6px;
+			border: 1px solid #ccc;
+			text-align: left;
+			vertical-align: top;
+		}
+		table th {
+			background-color: #f2f2f2;
+			font-weight: normal;
+		}
+		footer {
+		  position: fixed;
+		  bottom: 0;
+		  width: 100%;
+		  padding: 10px;
+		  font-size: 7px;
+		}
+		#upp {
+		  width: 100%;
+		  /*background:red;*/
+		}
+		#upp #downn td {
+		  border: none;
+		}
+		.alignleft,
+		.alignright {
+		  display: inline-block;
+
+		}
+		.alignleft {
+		  padding-left: 100px;
+		}
+		.alignright {
+		  padding-right: 100px;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div class="container-fluid" style="display: flex; justify-content: center; align-items: center;">
+		<img src="../static/img/logo.png" style="width: 150px; height: 150px; object-fit: contain;" >
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<img src="../static/img/company.png" style="width: 400px; height: 150px; object-fit: contain;" >
+		<img src="../static/img/bis.png" style="width: 90px; height: 67px;  object-fit: contain;" >
+	</div>
+		<div class="container">
+		<table id="upp">
+			<tr>
+				<th colspan="2" align="center"><p> <b>GST TAX INVOICE</b></p></th>
+			</tr>
+		  <tr>
+			<td>
+			  <p class="alignleft"> <strong>Bill To : </strong> <br /> {{ customer.customer_name }} <br /> {{ customer.customer_address }} ,{{ customer.customer_address2 }}
+			  <br /> {{ customer.cus_state }} ({{ customer.cus_state_code }}) <br /> {{ customer.cus_mobile_no }}</p>
+			</td>
+			<td align="right">
+				<p class="alignright"> <br /><strong> Sale Date :</strong>{{ sale_date }} <br/> <strong> Inv No :</strong> GJ/{{ sale.invoice_no }}/2023-24 <br/><strong> Rate/Gm :</strong> {{ sale.rate }} <small>(22CT 916 KDM)</small></p>
+			</td>
+		  </tr>
+		</table>
+		<table>
+			<thead>
+				<tr>
+					<th><small><b>HSN/SAC Code</b></small></th>
+					<th><small><b>Purity</b></small></th>
+					<th><small><b>Ornament Type</b></small></th>
+					<th><small><b>Gross Wt(Gms)</b></small></th>
+					<th><small><b>Stone Wt(Gms)</b></small></th>
+					<th><small><b>Net Wt(Gms)</b></small></th>
+					<th><small><b>Value Added(Gms)</b></small></th>
+					<th><small><b>Making Charge</b></small></th>
+					<th><small><b>Stone Cost</b></small></th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>{{ sale.HSN_SAC_Code }} - {{ sale.metal }}</td>
+				<td>{{ sale.Purity }}</td>
+				<td>{{ sale.ornament_type }}</td>
+				<td>{{ sale.gross_weight }}</td>
+				<td>{{ sale.stone_weight }}</td>
+				<td>{{ sale.net_weight }}</td>
+				<td>{{ sale.value_added }}</td>
+				<td>{{ sale.making_charge }}</td>
+				<td>{{ sale.stone_cost }}</td>
+
+			</tr>
+				<tr>
+					<td colspan="6">New Sale Amount Before GST <br/> CGST (@1.5%) <br/> SGST (@1.5%) <br/> New Sale Amount After GST <br/> <!-- Old Ornamnets Purchase <br/>Total Amount <br/>  -->  Round Off </td>
+					<td colspan="3">{{ sale.amount_before_gst }} <br/> {{ sale.cgst }} <br/> {{ sale.sgst }} <br/> {{ sale.amount_after_gst }} <br/> <!-- {{ sale.old_items_totalvalue }} <br/>  {{ sale.total_amount }} <br/>  -->  {{ round_off }} </td>
+				</tr>
+				<tr>
+					<td colspan="6"><strong style="font-size: 18px;">Total Amount Payable:</strong><br/> <small style="text-align: left; font-size:10px;">Amount in Words : {{amount_in_words}} </small></td>
+					<td colspan="3" ><strong style="font-size: 18px;"><i class="fa fa-inr" aria-hidden="true"></i> {{ total_payable }}</strong>
+					   <br/>
+						<small class="alignright"> Received <br/>
+						{% if sale.bycard > 0 %}
+							<strong>By Card: </strong> {{ sale.bycard }} <br />
+						{% endif %}
+						{% if sale.byupi > 0 %}
+							<strong>By UPI: </strong> {{ sale.byupi }} <br/>
+						{% endif %}
+						{% if sale.byib > 0 %}
+							<strong>By RTGS/NEFT: </strong> {{ sale.byib }} <br/>
+						{% endif %}
+						{% if sale.bycash > 0 %}
+							<strong>By Cash: </strong> {{ sale.bycash }}
+						{% endif %}
+
+						</small>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table style="border:none;">
+    <tr>
+        <td style="margin-right:20px;" style="width:30%;">
+            <table>
+                <tr>
+                    <td>
+                       <p class="alignleft"> <strong>Declaration : </strong> <br /><small>We declare that this invoice shows the actual price of goods described and that all particulars shown above are true and correct<br/><br/></small></p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td align="right" style="width:70%;">
+            <table>
+                <tr>
+                    <td align="right">
+                        <p class="alignright"> <small>Certified that particulars given above are true and corrected</small><br/><strong>FOR GURUDATTA JEWELLERS</strong> <br/> <br/> <br/><br/> </p>
+						<small><span class="alignleft">Customer Signature</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="alignright">Authorised Signature</span></small>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+		</div>
+	<br>
+	<footer style="border:none;font-size:9px;">
+		<small>Note: Goods once sold can be exchanged only if returned unused within 15 days. After 15 days the goods will be treated as used goods and the value of the Gold/Silver content only at prevailing market rate shall be considered.</small>
+		<!--<small>The weight of stone etc... are only indicative and the actual may vary. However in all cases, the stone weight shown in the bill will be considered.</small>-->
+	</footer>
+</body>
+
+
+</html>

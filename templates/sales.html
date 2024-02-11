@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Customers {% endblock title %}
+{% block js_scripts %}
+    <script type="text/javascript" src="../static/js/sales.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/sales.css"/>
+
+{% endblock js_scripts %}
+{% block navbar-content %}
+<div class="container-fluid scrollable-content">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'customers_home' %}"><b style="font-size:25px;">Customers</b></a>
+      </li>
+      </ul>
+    </div>
+</div>{% endblock navbar-content %}
+{% block content %}
+
+    <div class="container-fluid " style="width: auto; margin: auto;">
+        <br>
+        <div>
+            <a href="{% url 'customers_home' %}" class="btn btn-outline-secondary btn-sn"><i class="fa-solid fa-user-plus"></i>&nbsp;&nbsp;New Sale</a>
+        </div>
+        <br>
+        <table id="salesTable" class="table-wrapper display nowrap table table-striped table-responsive table-hover table-bordered table-dark table-sm mt-4">
+    <caption>List of Sales</caption>
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align: center;" align="center" scope="col" class="text-center" >Invoice No</th>
+            <th style="text-align: center;" scope="col" >Metal</th>
+            <th style="text-align: center;" scope="col" >HSN/SAC Code</th>
+            <th style="text-align: center;" scope="col" >Purity</th>
+            <th style="text-align: center;" scope="col" >Ornament Type</th>
+            <th style="text-align: center;" scope="col" >Sale Type</th>
+            <th style="text-align: center;" scope="col" >Gross Weight</th>
+            <th style="text-align: center;" scope="col" >Stone Weight</th>
+            <th style="text-align: center;" scope="col" >Net Weight</th>
+            <th style="text-align: center;" scope="col" >Value Added</th>
+            <th style="text-align: center;" scope="col" >Making Charge</th>
+            <th style="text-align: center;" scope="col" >Rate</th>
+            <th style="text-align: center;" scope="col" >Stone Cost</th>
+            <th style="text-align: center;" scope="col" >Amount Before GST</th>
+            <th style="text-align: center;" scope="col" >Calculation Mode</th>
+            <th style="text-align: center;" scope="col" >CGST</th>
+            <th style="text-align: center;" scope="col" >SGST</th>
+            <th style="text-align: center;" scope="col" >Amount After GST</th>
+            <th style="text-align: center;" scope="col" >Total Amount</th>
+            <th style="text-align: center;" scope="col" >Sale Date</th>
+            <th style="text-align: center;" scope="col" >Declaration</th>
+            <th style="text-align: center;" scope="col" >Old Metal Type</th>
+            <th style="text-align: center;" scope="col" >Old Items Type</th>
+            <th style="text-align: center;" scope="col" >Old Metal Weight</th>
+            <th style="text-align: center;" scope="col" >Old Items Touch</th>
+            <th style="text-align: center;" scope="col" >Old Items Rate</th>
+            <th style="text-align: center;" scope="col" >Old Items Value</th>
+            <th style="text-align: center;" scope="col" >Settled Amount</th>
+            <th style="text-align: center;" scope="col" >Unsettled Amount</th>
+            <th style="text-align: center;" scope="col" >Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sale in sales %}
+        <tr>
+            <td class="table-secondary">{{ sale.invoice_no }}</td>
+            <td class="table-secondary">{{ sale.metal }}</td>
+            <td class="table-secondary">{{ sale.HSN_SAC_Code }}</td>
+            <td class="table-secondary">{{ sale.Purity }}</td>
+            <td class="table-secondary">{{ sale.ornament_type }}</td>
+            <td class="table-secondary">{{ sale.item_sale_type }} - {{ sale.item_sale_12}}</td>
+            <td class="table-secondary">{{ sale.gross_weight }}</td>
+            <td class="table-secondary">{{ sale.stone_weight }}</td>
+            <td class="table-secondary">{{ sale.net_weight }}</td>
+            <td class="table-secondary">{{ sale.value_added }}</td>
+            <td class="table-secondary">{{ sale.making_charge }}</td>
+            <td class="table-secondary">{{ sale.rate }}</td>
+            <td class="table-secondary">{{ sale.stone_cost }}</td>
+            <td class="table-secondary">{{ sale.amount_before_gst }}</td>
+            <td class="table-secondary">{{ sale.cal_mode }}</td>
+            <td class="table-secondary">{{ sale.cgst }}</td>
+            <td class="table-secondary">{{ sale.sgst }}</td>
+            <td class="table-secondary">{{ sale.amount_after_gst }}</td>
+            <td class="table-secondary">{{ sale.total_amount }}</td>
+            <td class="table-secondary">{{ sale.sale_date }}</td>
+            <td class="table-secondary">{{ sale.declaration }}</td>
+            <td class="table-secondary">{{ sale.old_metal_type }}</td>
+            <td class="table-secondary">{{ sale.old_items_type }}</td>
+            <td class="table-secondary">{{ sale.old_items_weight }}</td>
+            <td class="table-secondary">{{ sale.old_items_touch }}</td>
+            <td class="table-secondary">{{ sale.old_items_rate }}</td>
+            <td class="table-secondary">{{ sale.old_items_totalvalue }}</td>
+            <td class="table-secondary">{{ sale.settled_amount }}</td>
+            <td class="table-secondary">{{ sale.unsettled_amount }}</td>
+            <td scope="row" class="table-secondary">
+                <div style="display: flex; justify-content: space-between;">
+
+                    <!--<a style="flex: 1;margin: 0 5px;" href="{% url 'customer' customer_id=sale.customer_id %}" class="btn btn-outline-secondary" title="View Sale">
+                        <i class="fas fa-eye" style="display: inline-block;"></i>
+                    </a>-->
+                    {% if sale.declaration == 'Complete' %}
+                        <a style="flex: 1;margin: 0 5px;" href="{% url 'generate_invoice_pdf' invoice_no=sale.invoice_no %}" class="btn btn-outline-success" title="Generate PDF">
+                            <i class="fas fa-print" style="display: inline-block;"></i>
+                        </a>
+                    {% endif %}
+                     <a style="flex: 1;margin: 0 5px;" href="{% url 'edit_sale' invoice_no=sale.invoice_no item_sale_12=sale.item_sale_12 %}" class="btn btn-outline-primary" title="Edit Sale">
+                        <i class="fas fa-pen" style="display: inline-block;"></i>
+                    </a>&nbsp;
+                    <a style="flex: 1;margin: 0 5px;" href="{% url 'delete_sale' invoice_no=sale.invoice_no %}" class="btn btn-outline-danger" title="Delete Sale">
+                        <i class="fas fa-trash-alt" style="display: inline-block;"></i>
+                    </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        <br><br><br>
+    </div>
+
+{% endblock content %}
+
+
